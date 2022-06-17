@@ -40,7 +40,7 @@ export const densityMarks = [
 export const steps = [
   {
     label: 'Select Density',
-    description: `Select Density Step`,
+    description: 'Select Density Step',
     range: densityRange,
     marks: densityMarks,
   },
@@ -52,19 +52,19 @@ export const steps = [
   },
   {
     label: 'Lower Boundary',
-    description: `Lower Boundary Step`,
+    description: 'Lower Boundary Step',
     range: defaultRange,
     marks: defaultMarks,
   },
   {
     label: 'Outline',
-    description: `Outline Step`,
+    description: 'Outline Step',
     range: defaultRange,
     marks: defaultMarks,
   },
   {
     label: 'Surface Texture',
-    description: `Surface Texture Step`,
+    description: 'Surface Texture Step',
     range: defaultRange,
     marks: defaultMarks,
   },
