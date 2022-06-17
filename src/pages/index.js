@@ -142,7 +142,7 @@ export default function VerticalLinearStepper() {
                 </Typography>
                 <Slider
                   size="large"
-                  defaultValue={70}
+                  defaultValue={step.marks[1].value}
                   min={step.range.min}
                   max={step.range.max}
                   aria-label="Large"
