@@ -27,7 +27,7 @@ export default function StepperComponent() {
 
   const handleBack = () => {
     // set previous result to current slider value
-    setCurrentSliderValue(results[activeStep - 1])
+    setCurrentSliderValue(results[activeStep - 1] || steps[activeStep].marks[1].value)
     // remove result
     setResults((prev) => {
       const next = prev.slice(0, -1)
@@ -49,10 +49,10 @@ export default function StepperComponent() {
           <Step key={step.label}>
             <StepLabel
               optional={
-                                index === stepsLength - 1 ? (
-                                  <Typography variant="caption">Last step</Typography>
-                                ) : null
-                            }
+                index === stepsLength - 1 ? (
+                  <Typography variant="caption">Last step</Typography>
+                ) : null
+              }
             >
               {step.label}
               <Typography variant="caption" sx={{ mx: 2 }}>{results[index] && results[index]}</Typography>
@@ -105,27 +105,27 @@ export default function StepperComponent() {
       </Stepper>
       <Paper elevation={0} sx={{ py: 3 }}>
         {activeStep === stepsLength && (
-        <>
-          <Typography variant="overline">Results</Typography>
-          <Typography>
-            {results.map((el, i) => (
-              <Typography variant="overline">
-                {steps[i].label}
-                :
-                {el}
-              </Typography>
-            ))}
+          <>
+            <Typography variant="overline">Results</Typography>
+            <Typography>
+              {results.map((el, i) => (
+                <Typography variant="overline">
+                  {steps[i].label}
+                  :
+                  {el}
+                </Typography>
+              ))}
 
-          </Typography>
-          <Typography variant="h6">
-            Mean Age:
-            {' '}
-            {meanAge}
-          </Typography>
-          <Button onClick={handleReset}>
-            Reset
-          </Button>
-        </>
+            </Typography>
+            <Typography variant="h6">
+              Mean Age:
+              {' '}
+              {meanAge}
+            </Typography>
+            <Button onClick={handleReset}>
+              Reset
+            </Button>
+          </>
         )}
       </Paper>
     </>
