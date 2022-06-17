@@ -10,11 +10,9 @@ import Button from '@mui/material/Button'
 import Slider from '@mui/material/Slider'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
+import { steps, stepsLength, densityMarks, defaultMarks, defaultRange, densityRange } from '../constants'
 
-const defaultRange = {
-  min: 3,
-  max: 16,
-}
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -24,92 +22,42 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }))
 
-const densityRange = {
-  min: 0,
-  max: 10,
-}
-
-const defaultMarks = [
-  {
-    value: 3,
-    label: '3',
-  },
-  {
-    value: 9,
-    label: '9',
-  },
-  {
-    value: 16,
-    label: '16',
-  },
-]
-
-const densityMarks = [
-  {
-    value: 0,
-    label: '0',
-  },
-  {
-    value: 5,
-    label: '5',
-  },
-  {
-    value: 16,
-    label: '10',
-  },
-]
-const steps = [
-  {
-    label: 'Select Density',
-    description: `Select Density Step`,
-    range: densityRange,
-    marks: densityMarks,
-  },
-  {
-    label: 'Upper Boundary',
-    description: 'Upper Boundary Step',
-    range: defaultRange,
-    marks: defaultMarks,
-  },
-  {
-    label: 'Lower Boundary',
-    description: `Lower Boundary Step`,
-    range: defaultRange,
-    marks: defaultMarks,
-  },
-  {
-    label: 'Outline',
-    description: `Outline Step`,
-    range: defaultRange,
-    marks: defaultMarks,
-  },
-  {
-    label: 'Surface Texture',
-    description: `Surface Texture Step`,
-    range: defaultRange,
-    marks: defaultMarks,
-  },
-]
-
-const stepsLength = steps.length
-
 export default function VerticalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0)
-
+  
+  const [currentSliderValue, setCurrentSliderValue] = React.useState<number>(5)
+  const [results, setResults] = React.useState<number[]>([])
+  
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-  }
-
+    setResults(prev => (
+      [ ...prev, currentSliderValue]
+      ))    
+      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    }
+    
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1)
-  }
+    // remove last result
+    setResults(prev => {
+        const next = prev.slice(0, -1)
+        return next
+      })
+      setActiveStep((prevActiveStep) => prevActiveStep - 1)
+    }
+    
+    const handleReset = () => {
+      setResults([])
+      setActiveStep(0)
+    }
+    console.log(results)
 
-  const handleReset = () => {
-    setActiveStep(0)
-  }
-
-  return (
-    <>
+    React.useEffect(() => {
+      if(steps?.[activeStep]) {
+        setCurrentSliderValue(steps[activeStep].marks[1].value)
+      }
+    }, [activeStep, setActiveStep])
+    
+    return (
+      <>
       <Box sx={{ mx: [2, 20] }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
@@ -141,13 +89,18 @@ export default function VerticalLinearStepper() {
                   Min: {step.range.min} | Max: {step.range.max}
                 </Typography>
                 <Slider
-                  size="large"
+                  size="medium"
                   defaultValue={step.marks[1].value}
                   min={step.range.min}
                   max={step.range.max}
-                  aria-label="Large"
+                  aria-label="Medium"
                   valueLabelDisplay="on"
                   marks={step.marks}
+                  onChange={(event, value) => {
+                    setCurrentSliderValue(value)
+                    console.log(currentSliderValue)
+                  
+                  }}
                 />
                 <Box sx={{ mb: 2 }}>
                   <div>
@@ -174,7 +127,8 @@ export default function VerticalLinearStepper() {
         <Paper square elevation={0} sx={{ p: 3 }}>
           {activeStep === stepsLength && (
             <>
-              <Typography>Result here</Typography>
+              <Typography>Results here</Typography>
+              <Typography>{results.map(el => el)}</Typography>
               <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
                 Reset
               </Button>
