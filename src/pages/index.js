@@ -28,31 +28,66 @@ const densityRange = {
   min: 0,
   max: 10,
 }
+
+const defaultMarks = [
+  {
+    value: 3,
+    label: '3',
+  },
+  {
+    value: 9,
+    label: '9',
+  },
+  {
+    value: 16,
+    label: '16',
+  },
+]
+
+const densityMarks = [
+  {
+    value: 0,
+    label: '0',
+  },
+  {
+    value: 5,
+    label: '5',
+  },
+  {
+    value: 16,
+    label: '10',
+  },
+]
 const steps = [
   {
     label: 'Select Density',
     description: `Select Density Step`,
     range: densityRange,
+    marks: densityMarks,
   },
   {
     label: 'Upper Boundary',
     description: 'Upper Boundary Step',
     range: defaultRange,
+    marks: defaultMarks,
   },
   {
     label: 'Lower Boundary',
     description: `Lower Boundary Step`,
     range: defaultRange,
+    marks: defaultMarks,
   },
   {
     label: 'Outline',
     description: `Outline Step`,
     range: defaultRange,
+    marks: defaultMarks,
   },
   {
     label: 'Surface Texture',
     description: `Surface Texture Step`,
     range: defaultRange,
+    marks: defaultMarks,
   },
 ]
 
@@ -77,12 +112,12 @@ export default function VerticalLinearStepper() {
     <>
       <Box sx={{ mx: [2, 20] }}>
       <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <Item>
+        <Grid item xs={12} md={6}>
+          <Item variant="elevation">
             <h1>The Composite Method (TCM)</h1>
           </Item>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={6}>
           <Item>
             <h1>Author: Janamaria Truesdale</h1>
           </Item>
@@ -111,7 +146,8 @@ export default function VerticalLinearStepper() {
                   min={step.range.min}
                   max={step.range.max}
                   aria-label="Large"
-                  valueLabelDisplay="auto"
+                  valueLabelDisplay="on"
+                  marks={step.marks}
                 />
                 <Box sx={{ mb: 2 }}>
                   <div>

@@ -7,6 +7,6 @@ module.exports = {
     'gatsby-plugin-mui-emotion',
   ],
   siteMetadata: {
-    title: 'My page',
+    title: 'The Composite Method by Janamaria Truesdale',
   },
 };
