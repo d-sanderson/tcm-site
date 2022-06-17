@@ -10,9 +10,7 @@ import Button from '@mui/material/Button'
 import Slider from '@mui/material/Slider'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
-import { steps, stepsLength, densityMarks, defaultMarks, defaultRange, densityRange } from '../constants'
-
-
+import { steps, stepsLength } from '../constants'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -48,7 +46,6 @@ export default function VerticalLinearStepper() {
       setResults([])
       setActiveStep(0)
     }
-    console.log(results)
 
     React.useEffect(() => {
       if(steps?.[activeStep]) {
@@ -97,9 +94,7 @@ export default function VerticalLinearStepper() {
                   valueLabelDisplay="on"
                   marks={step.marks}
                   onChange={(event, value) => {
-                    setCurrentSliderValue(value)
-                    console.log(currentSliderValue)
-                  
+                    if (typeof value === 'number') setCurrentSliderValue(value)
                   }}
                 />
                 <Box sx={{ mb: 2 }}>
