@@ -57,7 +57,6 @@ export default function StepperComponent() {
               {step.label}
               <Typography variant="caption" sx={{ mx: 2 }}>{results[index] && results[index]}</Typography>
             </StepLabel>
-
             <StepContent>
               <Typography>{step.description}</Typography>
               <Typography variant="caption">
@@ -77,7 +76,7 @@ export default function StepperComponent() {
                 aria-label="Medium"
                 valueLabelDisplay="on"
                 marks={step.marks}
-                onChange={(event, value) => {
+                onChange={(_, value) => {
                   if (typeof value === 'number') setCurrentSliderValue(value)
                 }}
               />

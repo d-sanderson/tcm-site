@@ -1,5 +1,5 @@
 import {
-  Box, Switch, Typography,
+  Box, Switch, Typography, Container,
 } from '@mui/material'
 import { useStaticQuery, graphql } from 'gatsby'
 import * as React from 'react'
@@ -15,7 +15,7 @@ export default function IndexPage() {
     },
     graphCmsAuthor: {
       name,
-      // title,
+      title,
       // biography,
       // picture,
     },
@@ -39,19 +39,27 @@ export default function IndexPage() {
 
   return (
     <Box sx={{ mx: [2, 20], mt: [4] }}>
-      <Box display="flex" justifyContent="flex-end">
+      {/* Dark Mode? */}
+      {/* <Box display="flex" justifyContent="flex-end">
         <Switch defaultChecked color="warning" onClick={() => setMode(!mode)} />
-      </Box>
+      </Box> */}
       <Typography variant="h3" fontSize={[18, 28]}>{siteTitle}</Typography>
-      <Typography variant="h6">
-        Author:
-        {' '}
-        {name}
-      </Typography>
+      <Box sx={{ px: 2 }}>
+        <Typography variant="h6">
+          Author:
+          {' '}
+          {name}
+        </Typography>
+      </Box>
       <Stepper />
-
-
-      <Copyright />
+      <footer>
+        <Container sx={{
+          bottom: 0, position: 'absolute', mx: 'auto', my: 4,
+        }}
+        >
+          <Copyright author={name} />
+        </Container>
+      </footer>
     </Box>
   )
 }
