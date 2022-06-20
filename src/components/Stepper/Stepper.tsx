@@ -9,7 +9,7 @@ import Button from '@mui/material/Button'
 import Slider from '@mui/material/Slider'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
-import { steps, stepsLength } from '../constants'
+import { steps, stepsLength } from './constants'
 
 export default function StepperComponent() {
   const [activeStep, setActiveStep] = useState(0)
@@ -130,6 +130,5 @@ export default function StepperComponent() {
         )}
       </Paper>
     </>
-
   )
 }

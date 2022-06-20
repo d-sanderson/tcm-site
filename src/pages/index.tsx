@@ -1,13 +1,17 @@
 import {
-  Box, Switch, Typography, Container,
+  Box,
+  // Dark Mode?
+  Switch,
+  Typography, Container,
 } from '@mui/material'
 import { useStaticQuery, graphql } from 'gatsby'
 import * as React from 'react'
 import Copyright from '../components/Copyright'
-import Stepper from '../components/Stepper'
+import Stepper from '../components/Stepper/Stepper'
 
 export default function IndexPage() {
-  const [mode, setMode] = React.useState(true)
+  {/* Dark Mode? */}
+  // const [mode, setMode] = React.useState(true)
 
   const {
     graphCmsSiteTitle: {
@@ -15,7 +19,7 @@ export default function IndexPage() {
     },
     graphCmsAuthor: {
       name,
-      title,
+      // title,
       // biography,
       // picture,
     },
