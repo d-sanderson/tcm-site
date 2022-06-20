@@ -106,14 +106,16 @@ export default function StepperComponent() {
       <Paper elevation={0} sx={{ py: 3 }}>
         {activeStep === stepsLength && (
           <>
-            <Typography variant="overline">Results</Typography>
+            <Typography variant="h6">Results</Typography>
             <Typography>
               {results.map((el, i) => (
-                <Typography variant="overline">
-                  {steps[i].label}
-                  :
-                  {el}
-                </Typography>
+                <div>
+                  <Typography variant="overline">
+                    {steps[i].label}
+                    :
+                    {el}
+                  </Typography>
+                </div>
               ))}
 
             </Typography>

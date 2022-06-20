@@ -12,7 +12,9 @@
     "@emotion/styled": "latest",
     "@mui/material": "latest",
     "gatsby": "latest",
+    "gatsby-plugin-image": "^2.16.1",
     "gatsby-plugin-react-helmet": "latest",
+    "gatsby-source-graphcms": "^2.8.0",
     "react": "latest",
     "react-dom": "latest",
     "react-helmet": "latest"
