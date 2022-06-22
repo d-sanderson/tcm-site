@@ -10,6 +10,7 @@ import Slider from '@mui/material/Slider'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { steps, stepsLength } from './constants'
+import { ageEstSimple } from './Stepper.utils'
 
 export default function StepperComponent() {
   const [activeStep, setActiveStep] = useState(0)
@@ -41,7 +42,7 @@ export default function StepperComponent() {
     setActiveStep(0)
   }
 
-  const meanAge = results.reduce((acc, curr) => acc + curr, 0)
+
   return (
     <>
       <Stepper sx={{ mt: [2, 4] }} activeStep={activeStep} orientation="vertical">
@@ -121,7 +122,14 @@ export default function StepperComponent() {
             <Typography variant="h6">
               Mean Age:
               {' '}
-              {meanAge}
+              {ageEstSimple({
+                density: results[0],
+                ub: results[1],
+                lb: results[2],
+                outline: results[3],
+                st: results[4],
+                top: results[5],
+              })}
             </Typography>
             <Button onClick={handleReset}>
               Reset
