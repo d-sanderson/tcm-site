@@ -56,14 +56,14 @@ export default function IndexPage() {
         </Typography>
       </Box>
       <Stepper />
-      <footer>
+      {/* <footer>
         <Container sx={{
           bottom: 0, position: 'absolute', mx: 'auto', my: 4,
         }}
         >
           <Copyright author={name} />
         </Container>
-      </footer>
+      </footer> */}
     </Box>
   )
 }
