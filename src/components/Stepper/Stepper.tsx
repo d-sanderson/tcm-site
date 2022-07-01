@@ -13,17 +13,33 @@ import { steps, stepsLength } from './constants'
 import { ageEstSimple } from './Stepper.utils'
 
 export default function StepperComponent() {
-  const [activeStep, setActiveStep] = useState(0)
+  type MAXIMUM_STEP = 7
 
-  const [currentSliderValue, setCurrentSliderValue] = useState<number>(5)
+  type ComputeRange<
+    N extends number,
+    Result extends Array<unknown> = [],
+    > =
+    (Result['length'] extends N
+      ? Result
+      : ComputeRange<N, [...Result, Result['length']]>
+    )
+
+  type ActiveStep = ComputeRange<MAXIMUM_STEP>[number]
+
+  const [activeStep, setActiveStep] = useState<ActiveStep>(0)
+
+  const [currentSliderValue, setCurrentSliderValue] = useState<number>(steps[0].marks[1].value)
   const [results, setResults] = useState<number[]>([])
 
   const handleNext = () => {
     setResults((prev) => (
       [...prev, currentSliderValue]
     ))
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-    setCurrentSliderValue(results[activeStep] || steps[activeStep].marks[1].value)
+    if (activeStep === 6) return
+    if (activeStep <= stepsLength) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1 as ActiveStep)
+      setCurrentSliderValue(results[activeStep] || steps[activeStep].marks[1].value)
+    }
   }
 
   const handleBack = () => {
@@ -34,18 +50,35 @@ export default function StepperComponent() {
       const next = prev.slice(0, -1)
       return next
     })
-    setActiveStep((prevActiveStep) => prevActiveStep - 1)
+    setActiveStep((prevActiveStep) => prevActiveStep - 1 as ActiveStep)
   }
+
+  let low
+  let meanAge
+  let high
 
   const handleReset = () => {
     setResults([])
     setActiveStep(0)
   }
-
+  if (activeStep === stepsLength) {
+    ({ low, meanAge, high } = ageEstSimple({
+      density: results[0],
+      ub: results[1],
+      lb: results[2],
+      outline: results[3],
+      st: results[4],
+      top: results[5],
+    }))
+  }
 
   return (
     <>
-      <Stepper sx={{ mt: [2, 4] }} activeStep={activeStep} orientation="vertical">
+      <Stepper
+        sx={{ mt: [2, 4] }}
+        activeStep={activeStep}
+        orientation="vertical"
+      >
         {steps.map((step, index) => (
           <Step key={step.label}>
             <StepLabel
@@ -71,14 +104,14 @@ export default function StepperComponent() {
               </Typography>
               <Slider
                 size="medium"
-                defaultValue={currentSliderValue}
+                value={currentSliderValue}
                 min={step.range.min}
                 max={step.range.max}
                 aria-label="Medium"
                 valueLabelDisplay="on"
                 marks={step.marks}
-                onChange={(_, value) => {
-                  if (typeof value === 'number') setCurrentSliderValue(value)
+                onChange={(e) => {
+                  if (typeof e.target.value === 'number') setCurrentSliderValue(e.target.value)
                 }}
               />
               <Box sx={{ mb: 2 }}>
@@ -120,16 +153,19 @@ export default function StepperComponent() {
 
             </Typography>
             <Typography variant="h6">
+              Lower Range:
+              {' '}
+              {low}
+            </Typography>
+            <Typography variant="h6">
               Mean Age:
               {' '}
-              {ageEstSimple({
-                density: results[0],
-                ub: results[1],
-                lb: results[2],
-                outline: results[3],
-                st: results[4],
-                top: results[5],
-              })}
+              {meanAge}
+            </Typography>
+            <Typography variant="h6">
+              Upper Range:
+              {' '}
+              {high}
             </Typography>
             <Button onClick={handleReset}>
               Reset
