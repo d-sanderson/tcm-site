@@ -58,7 +58,6 @@ export const ageEstSimple = ({
   const meanAge = age
   return { low, meanAge, high }
 }
-u
 // def age_est_simple(den_sq, ub, lb, outline, st, top):
 //     """
 //     Age Estimation Method 1:
