@@ -1,34 +1,64 @@
 /* eslint-disable import/prefer-default-export */
 
 export const ageEstSimple = ({
-  density, ub, lb, outline, st, top,
+  density,
+  ub,
+  lb,
+  outline,
+  st,
+  top,
+  weights,
 }: {
-    density: number,
-    ub: number,
-    lb: number,
-    outline: number,
-    st: number,
-    top: number,
- }) => {
-  // densitySquared = density * density
-  const intercept = -1.9948
-  const densitySquared = Math.sqrt(density)
+  density: number
+  ub: number
+  lb: number
+  outline: number
+  st: number
+  top: number
+  weights: {
+    id: string
+    intercept: number
+    lowerBoundaryStd: number
+    outlineStd: number
+    standardError: number
+    surfaceTextureStd: number
+    topographyStd: number
+    upperBoundStd: number
+    densitySqRootStd: number
+  }
+  // Todo: add gender?
+}) => {
+  // Intercept is different for different versions of this formula
+  const intercept = weights.intercept || -1.9948
 
-  const standardError = 5.661
+  const densitySqRoot = Math.sqrt(density)
+  // round standard error to nearest year?
+  const standardError = Math.round(5.661)
   const standardErrorDoubled = standardError * 2
-  const val1 = 3.01 * densitySquared // density squared
-  const val2 = 0.92 * ub // upper boundary
-  const val3 = 0.46 * lb // lower boundary
-  const val4 = 1.13 * outline // outline score
-  const val5 = 1.18 * st // surface texture score
-  const val6 = 1.38 * top // Topographic score
-  const age = intercept + val1 + val2 + val3 + val4 + val5 + val6
-  const low = (age - standardErrorDoubled).toFixed(2)
-  const high = (age + standardErrorDoubled).toFixed(2)
-  const meanAge = age.toFixed(2)
+
+  if (weights.intercept
+    && weights.densitySqRootStd
+    && weights.upperBoundStd
+    && weights.lowerBoundaryStd
+    && weights.outlineStd
+    && weights.surfaceTextureStd
+    && weights.topographyStd) { console.log('using weights from cms!') }
+
+  const age = Math.round(
+    intercept
+      + (weights.densitySqRootStd || 3.0105) * densitySqRoot // density square root
+      + (weights.upperBoundStd || 0.924) * ub // upper boundary
+      + (weights.lowerBoundaryStd || 0.4585) * lb // lower boundary
+      + (weights.outlineStd || 1.1332) * outline // outline score
+      + (weights.surfaceTextureStd || 1.1789) * st // surface texture score
+      + (weights.topographyStd || 1.3723) * top,
+  ) // Topographic score
+  const low = age - standardErrorDoubled
+  const high = age + standardErrorDoubled
+  const meanAge = age
   return { low, meanAge, high }
 }
-
+u
 // def age_est_simple(den_sq, ub, lb, outline, st, top):
 //     """
 //     Age Estimation Method 1:

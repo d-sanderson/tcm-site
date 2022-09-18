@@ -1,0 +1,43 @@
+fragment EstimateStd on EstimateStd {
+  stage
+  publishedAt
+  updatedAt
+  createdAt
+  remoteId: id
+  densitySqRootStd
+  intercept
+  upperBoundStd
+  lowerBoundaryStd
+  outlineStd
+  surfaceTextureStd
+  standardError
+  topographyStd
+  publishedBy {
+    ... on User {
+      remoteTypeName: __typename
+      remoteId: id
+      stage
+    }
+  }
+  updatedBy {
+    ... on User {
+      remoteTypeName: __typename
+      remoteId: id
+      stage
+    }
+  }
+  createdBy {
+    ... on User {
+      remoteTypeName: __typename
+      remoteId: id
+      stage
+    }
+  }
+  scheduledIn {
+    ... on ScheduledOperation {
+      remoteTypeName: __typename
+      remoteId: id
+      stage
+    }
+  }
+}

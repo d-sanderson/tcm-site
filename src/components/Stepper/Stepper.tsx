@@ -9,6 +9,7 @@ import Button from '@mui/material/Button'
 import Slider from '@mui/material/Slider'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
+import { graphql, useStaticQuery } from 'gatsby'
 import { steps, stepsLength } from './constants'
 import { ageEstSimple } from './Stepper.utils'
 
@@ -26,8 +27,23 @@ export default function StepperComponent() {
 
   type ActiveStep = ComputeRange<MAXIMUM_STEP>[number]
 
-  const [activeStep, setActiveStep] = useState<ActiveStep>(0)
+  const { graphCmsEstimateStd: weights } = useStaticQuery(graphql`
+  {
+    graphCmsEstimateStd {
+      id
+      intercept
+      lowerBoundaryStd
+      outlineStd
+      standardError
+      surfaceTextureStd
+      topographyStd
+      upperBoundStd
+      densitySqRootStd
+    }
+  }
+`)
 
+  const [activeStep, setActiveStep] = useState<ActiveStep>(0)
   const [currentSliderValue, setCurrentSliderValue] = useState<number>(steps[0].marks[1].value)
   const [results, setResults] = useState<number[]>([])
 
@@ -69,6 +85,7 @@ export default function StepperComponent() {
       outline: results[3],
       st: results[4],
       top: results[5],
+      weights,
     }))
   }
 
@@ -142,13 +159,11 @@ export default function StepperComponent() {
             <Typography variant="h6">Results</Typography>
             <Typography>
               {results.map((el, i) => (
-                <div>
-                  <Typography variant="overline">
-                    {steps[i].label}
-                    :
-                    {el}
-                  </Typography>
-                </div>
+                <Typography key={el} variant="overline">
+                  {steps[i].label}
+                  :
+                  {el}
+                </Typography>
               ))}
 
             </Typography>
