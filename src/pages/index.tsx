@@ -5,7 +5,7 @@ import {
 } from '@mui/material'
 import { useStaticQuery, graphql } from 'gatsby'
 import * as React from 'react'
-import Copyright from '../components/Copyright'
+// import Copyright from '../components/Copyright'
 import Stepper from '../components/Stepper/Stepper'
 
 export default function IndexPage() {
@@ -53,7 +53,7 @@ export default function IndexPage() {
           bottom: 0, position: 'absolute', mx: 'auto', my: 4,
         }}
         >
-          <Copyright author={name} />
+          {/* <Copyright author={name} /> */}
         </Container>
       </footer>
     </Box>
