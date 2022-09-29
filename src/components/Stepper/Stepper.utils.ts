@@ -44,18 +44,17 @@ export const ageEstSimple = ({
     && weights.surfaceTextureStd
     && weights.topographyStd) { console.log('using weights from cms!') }
 
-  const age = Math.round(
-    intercept
-      + (weights.densitySqRootStd || 3.0105) * densitySqRoot // density square root
-      + (weights.upperBoundStd || 0.924) * ub // upper boundary
-      + (weights.lowerBoundaryStd || 0.4585) * lb // lower boundary
-      + (weights.outlineStd || 1.1332) * outline // outline score
-      + (weights.surfaceTextureStd || 1.1789) * st // surface texture score
-      + (weights.topographyStd || 1.3723) * top,
-  ) // Topographic score
-  const low = age - standardErrorDoubled
-  const high = age + standardErrorDoubled
-  const meanAge = age
+  const age = intercept
+  + (weights.densitySqRootStd || 3.0105) * densitySqRoot // density square root
+  + (weights.upperBoundStd || 0.924) * ub // upper boundary
+  + (weights.lowerBoundaryStd || 0.4585) * lb // lower boundary
+  + (weights.outlineStd || 1.1332) * outline // outline score
+  + (weights.surfaceTextureStd || 1.1789) * st // surface texture score
+  + (weights.topographyStd || 1.3723) * top
+
+  const low = (age - standardErrorDoubled).toFixed(4)
+  const high = (age + standardErrorDoubled).toFixed(4)
+  const meanAge = age.toFixed(4)
   return { low, meanAge, high }
 }
 // def age_est_simple(den_sq, ub, lb, outline, st, top):
