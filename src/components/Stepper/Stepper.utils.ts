@@ -33,9 +33,8 @@ export const ageEstSimple = ({
 
   const densitySqRoot = Math.sqrt(density)
   // round standard error to nearest year?
-  const standardError = Math.round(5.661)
+  const standardError = weights.standardError || 5.661
   const standardErrorDoubled = standardError * 2
-
   if (weights.intercept
     && weights.densitySqRootStd
     && weights.upperBoundStd
