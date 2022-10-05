@@ -7,19 +7,23 @@ import StepLabel from '@mui/material/StepLabel'
 import StepContent from '@mui/material/StepContent'
 import Button from '@mui/material/Button'
 import Slider from '@mui/material/Slider'
-import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { graphql, useStaticQuery } from 'gatsby'
 import { steps, stepsLength } from './constants'
 import { ageEstSimple } from './Stepper.utils'
+import rFormula from '../../../static/assets/r-formula.png'
 
-export default function StepperComponent() {
+interface Props {
+  isTest: boolean
+}
+
+function StepperComponent({ isTest }: Props) {
   type MAXIMUM_STEP = 7
 
   type ComputeRange<
     N extends number,
     Result extends Array<unknown> = [],
-    > =
+  > =
     (Result['length'] extends N
       ? Result
       : ComputeRange<N, [...Result, Result['length']]>
@@ -46,6 +50,16 @@ export default function StepperComponent() {
   const [activeStep, setActiveStep] = useState<ActiveStep>(0)
   const [currentSliderValue, setCurrentSliderValue] = useState<number>(steps[0].marks[1].value)
   const [results, setResults] = useState<number[]>([])
+  const [dynamicWeights, setDynamicWeights] = useState(weights)
+
+  // TESTING ONLY
+  const handleWeightChange = (id: string, value) => {
+    console.log({id, value})
+    setDynamicWeights((prev) => ({
+      ...prev,
+      [id]: parseFloat(value),
+    }))
+  }
 
   const handleNext = () => {
     setResults((prev) => (
@@ -77,6 +91,7 @@ export default function StepperComponent() {
     setResults([])
     setActiveStep(0)
   }
+
   if (activeStep === stepsLength) {
     ({ low, meanAge, high } = ageEstSimple({
       density: results[0],
@@ -85,12 +100,118 @@ export default function StepperComponent() {
       outline: results[3],
       st: results[4],
       top: results[5],
-      weights,
+      weights: dynamicWeights,
     }))
   }
 
   return (
     <>
+      {
+        isTest
+        && (
+          <div>
+            <img src={rFormula} alt="" />
+
+            <div>
+              <label htmlFor="intercept">
+                intercept
+                <input
+                  onChange={(e) =>{
+                    console.log(e.target)
+                    handleWeightChange(e.target.id, e.target.value)}}
+                  type="text"
+                  defaultValue={dynamicWeights.intercept}
+                  id="intercept"
+                />
+              </label>
+            </div>
+
+            <div>
+              <label htmlFor="densitySqRootStd">
+                densitySqRootStd
+                <input
+                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
+                  type="text"
+                  defaultValue={dynamicWeights.densitySqRootStd}
+                  id="densitySqRootStd"
+                />
+              </label>
+            </div>
+
+            <div>
+              <label htmlFor="topographyStd">
+                topographyStd
+                <input
+                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
+                  type="text"
+                  defaultValue={dynamicWeights.topographyStd}
+                  id="topographyStd"
+                />
+              </label>
+            </div>
+
+            <div>
+              <label htmlFor="upperBoundStd">
+                upperBoundStd
+                <input
+                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
+                  type="text"
+                  defaultValue={dynamicWeights.upperBoundStd}
+                  id="upperBoundStd"
+                />
+              </label>
+            </div>
+
+            <div>
+              <label htmlFor="lowerBoundaryStd">
+                lowerBoundaryStd
+                <input
+                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
+                  type="text"
+                  defaultValue={dynamicWeights.lowerBoundaryStd}
+                  id="lowerBoundaryStd"
+                />
+              </label>
+            </div>
+            <div>
+
+              <label htmlFor="outlineStd">
+                outlineStd
+                <input
+                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
+                  type="text"
+                  defaultValue={dynamicWeights.outlineStd}
+                  id="outlineStd"
+                />
+              </label>
+            </div>
+
+            <div>
+              <label htmlFor="surfaceTextureStd">
+                surfaceTextureStd
+                <input
+                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
+                  type="text"
+                  defaultValue={dynamicWeights.surfaceTextureStd}
+                  id="surfaceTextureStd"
+                />
+              </label>
+            </div>
+
+            <div>
+              <label htmlFor="standardError">
+                standardError
+                <input
+                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
+                  type="text"
+                  defaultValue={dynamicWeights.standardError}
+                  id="standardError"
+                />
+              </label>
+            </div>
+          </div>
+        )
+      }
       <Stepper
         sx={{ mt: [2, 4] }}
         activeStep={activeStep}
@@ -157,15 +278,15 @@ export default function StepperComponent() {
         {activeStep === stepsLength && (
           <>
             <Typography variant="h6">Results</Typography>
-              {results.map((el, i) => (
-                <div key={i}>
-                  <Typography variant="caption">
-                    {steps[i].label}
-                    :
-                    {el}
-                  </Typography>
-                </div>
-              ))}
+            {results.map((el, i) => (
+              <div key={i}>
+                <Typography variant="caption">
+                  {steps[i].label}
+                  :
+                  {el}
+                </Typography>
+              </div>
+            ))}
 
             <Typography variant="h6">
               Lower Range:
@@ -191,3 +312,5 @@ export default function StepperComponent() {
     </>
   )
 }
+
+export default StepperComponent
