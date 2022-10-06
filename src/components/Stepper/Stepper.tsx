@@ -186,7 +186,6 @@ function StepperComponent({ isTest }: Props) {
                   <Box>
                     <Slider
                       size="medium"
-                      sx={{ width: '85%', mx: 5 }}
                       value={currentSliderValue}
                       {...activeStep === 0 ? { step: 5 } : {}}
                       min={step.range.min}
