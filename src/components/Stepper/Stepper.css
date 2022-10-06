@@ -1,9 +1,26 @@
-.scale {
+
+.step-img {
   display: none;
 }
 
 @media (min-width: 768px) {
-  .scale {
+  .step-img {
     display: block;
   }
+}
+
+.MuiStepLabel-iconContainer > svg {
+  fill: #62acb5;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.MuiSlider-thumb {
+  color: #68D3AF;
+}
+.MuiSlider-rail {
+  color: black;
+}
+.MuiSlider-track {
+  color: #62acb5;
 }

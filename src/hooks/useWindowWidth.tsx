@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
 
 function getWindowWidth() {
-  const { innerWidth: width } = window
-  return {
-    width,
+  const isBrowser = typeof window !== 'undefined'
+  if (isBrowser) {
+    const { innerWidth: width } = window
+    return {
+      width,
+    }
   }
+  return { width: 0 }
 }
 
 export default function useWindowWidth() {

@@ -14,13 +14,21 @@ import { steps, stepsLength } from './constants'
 import { ageEstSimple } from './Stepper.utils'
 import './Stepper.css'
 import rFormula from '../../../static/assets/r-formula.png'
+// SCALES
 import densityScale from '../../../static/assets/density-scale.png'
 import ubScale from '../../../static/assets/ub-scale.png'
 import lbScale from '../../../static/assets/lb-scale.png'
 import otlScale from '../../../static/assets/otl-scale.png'
 import stScale from '../../../static/assets/st-scale.png'
 import topoScale from '../../../static/assets/topo-scale.png'
-import useWindowWidth from '../../pages/hooks/useWindowWidth'
+// LOCATIONS
+import ubLocation from '../../../static/assets/ub-location.png'
+import lbLocation from '../../../static/assets/lb-location.png'
+import otlLocation from '../../../static/assets/outline-location.png'
+import stLocation from '../../../static/assets/st-location.png'
+import topoLocation from '../../../static/assets/topo-location.png'
+import useWindowWidth from '../../hooks/useWindowWidth'
+import Tester from '../Tester'
 
 interface Props {
   isTest: boolean
@@ -56,30 +64,30 @@ function StepperComponent({ isTest }: Props) {
   }
 `)
 
-  const { width } = useWindowWidth()
   const [activeStep, setActiveStep] = useState<ActiveStep>(0)
   const [currentSliderValue, setCurrentSliderValue] = useState<number>(steps[0].marks[1].value)
   const [results, setResults] = useState<number[]>([])
   const [dynamicWeights, setDynamicWeights] = useState(weights)
 
-  const getImageForStep = (step: ActiveStep) => {
-    switch (true) {
-      case step === 0:
-        return densityScale
-      case step === 1:
-        return ubScale
-      case step === 2:
-        return lbScale
-      case step === 3:
-        return otlScale
-      case step === 4:
-        return stScale
-      case step === 5:
-        return topoScale
-      default:
-        return null
-    }
-  }
+  const images = [
+    { scale: densityScale },
+    {
+      scale: ubScale, location: ubLocation,
+    },
+    {
+      scale: lbScale, location: lbLocation,
+    },
+    {
+      scale: otlScale, location: otlLocation,
+    },
+    {
+      scale: stScale, location: stLocation,
+    },
+    {
+      scale: topoScale, location: topoLocation,
+    },
+  ]
+  const getImageForStep = (step: ActiveStep) => images[step]
 
   // TESTING ONLY
   const handleWeightChange = (id: string, value) => {
@@ -97,13 +105,13 @@ function StepperComponent({ isTest }: Props) {
     if (activeStep === 6) return
     if (activeStep <= stepsLength) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1 as ActiveStep)
-      setCurrentSliderValue(results[activeStep] || steps[activeStep].marks[1].value)
+      setCurrentSliderValue(results[activeStep] || 0)
     }
   }
 
   const handleBack = () => {
     // set previous result to current slider value
-    setCurrentSliderValue(results[activeStep - 1] || steps[activeStep].marks[1].value)
+    setCurrentSliderValue(results[activeStep - 1] || 0)
     // remove result
     setResults((prev) => {
       const next = prev.slice(0, -1)
@@ -138,108 +146,7 @@ function StepperComponent({ isTest }: Props) {
       {
         isTest
         && (
-          <div>
-            <img src={rFormula} alt="" />
-
-            <div>
-              <label htmlFor="intercept">
-                intercept
-                <input
-                  onChange={(e) => {
-                    console.log(e.target)
-                    handleWeightChange(e.target.id, e.target.value)
-                  }}
-                  type="text"
-                  defaultValue={dynamicWeights.intercept}
-                  id="intercept"
-                />
-              </label>
-            </div>
-
-            <div>
-              <label htmlFor="densitySqRootStd">
-                densitySqRootStd
-                <input
-                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
-                  type="text"
-                  defaultValue={dynamicWeights.densitySqRootStd}
-                  id="densitySqRootStd"
-                />
-              </label>
-            </div>
-
-            <div>
-              <label htmlFor="topographyStd">
-                topographyStd
-                <input
-                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
-                  type="text"
-                  defaultValue={dynamicWeights.topographyStd}
-                  id="topographyStd"
-                />
-              </label>
-            </div>
-
-            <div>
-              <label htmlFor="upperBoundStd">
-                upperBoundStd
-                <input
-                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
-                  type="text"
-                  defaultValue={dynamicWeights.upperBoundStd}
-                  id="upperBoundStd"
-                />
-              </label>
-            </div>
-
-            <div>
-              <label htmlFor="lowerBoundaryStd">
-                lowerBoundaryStd
-                <input
-                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
-                  type="text"
-                  defaultValue={dynamicWeights.lowerBoundaryStd}
-                  id="lowerBoundaryStd"
-                />
-              </label>
-            </div>
-            <div>
-
-              <label htmlFor="outlineStd">
-                outlineStd
-                <input
-                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
-                  type="text"
-                  defaultValue={dynamicWeights.outlineStd}
-                  id="outlineStd"
-                />
-              </label>
-            </div>
-
-            <div>
-              <label htmlFor="surfaceTextureStd">
-                surfaceTextureStd
-                <input
-                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
-                  type="text"
-                  defaultValue={dynamicWeights.surfaceTextureStd}
-                  id="surfaceTextureStd"
-                />
-              </label>
-            </div>
-
-            <div>
-              <label htmlFor="standardError">
-                standardError
-                <input
-                  onChange={(e) => handleWeightChange(e.target.id, e.target.value)}
-                  type="text"
-                  defaultValue={dynamicWeights.standardError}
-                  id="standardError"
-                />
-              </label>
-            </div>
-          </div>
+          <Tester handleWeightChange={handleWeightChange} dynamicWeights={dynamicWeights} />
         )
       }
       <Stepper
@@ -262,17 +169,24 @@ function StepperComponent({ isTest }: Props) {
             <StepContent>
               <Grid container>
                 <Grid item xs={8}>
-                  {activeStep <= 5 && (
-                  <img
-                    className="scale"
-                    src={getImageForStep(activeStep)}
-                    style={{ width: '100%' }}
-                    alt={step.description}
-                  />
-                  )}
-                  <Box sx={{ mx: width <  1000 ? 0 : activeStep === 0 ? 20 : 5 }}>
+                  <div style={{ display: 'flex', gap: '90px' }}>
+                    {activeStep <= 5 && (
+                      <>
+                        <img
+                          className="step-img"
+                          src={getImageForStep(activeStep).scale}
+                          style={{ width: '100%' }}
+                          alt={step.description}
+                        />
+                        <img className="step-img" src={getImageForStep(activeStep).location} alt="" />
+                      </>
+                    )}
+
+                  </div>
+                  <Box>
                     <Slider
-                      size="small"
+                      size="medium"
+                      sx={{ width: '85%', mx: 5 }}
                       value={currentSliderValue}
                       {...activeStep === 0 ? { step: 5 } : {}}
                       min={step.range.min}
@@ -295,7 +209,6 @@ function StepperComponent({ isTest }: Props) {
                     {' '}
                     {step.range.max}
                   </Typography>
-
                 </Grid>
               </Grid>
               <Box sx={{ mb: 2 }}>
@@ -303,14 +216,14 @@ function StepperComponent({ isTest }: Props) {
                   <Button
                     variant="contained"
                     onClick={handleNext}
-                    sx={{ mt: 1, mr: 1 }}
+                    sx={{ mt: 1, mr: 1, backgroundColor: '#62acb5' }}
                   >
                     {index === stepsLength - 1 ? 'Calculate' : 'Next'}
                   </Button>
                   <Button
                     disabled={index === 0}
                     onClick={handleBack}
-                    sx={{ mt: 1, mr: 1 }}
+                    sx={{ mt: 1, mr: 1, color: 'white' }}
                   >
                     Back
                   </Button>
@@ -324,16 +237,16 @@ function StepperComponent({ isTest }: Props) {
         {activeStep === stepsLength && (
           <>
             <Typography variant="h6">Results</Typography>
-            {results.map((el, i) => (
-              <div key={i}>
-                <Typography variant="caption">
-                  {steps[i].label}
-                  :
-                  {el}
-                </Typography>
-              </div>
-            ))}
-
+              {/* {results.map((el, i) => (
+                <div key={i}>
+                  <Typography variant="h6">
+                    {steps[i].label}
+                    :
+                    {el}
+                  </Typography>
+                  {/* <img src={getImageForStep(i)?.location} alt="" />
+                </div>
+              ))} */}
             <Typography variant="h6">
               Lower Range:
               {' '}
@@ -349,7 +262,9 @@ function StepperComponent({ isTest }: Props) {
               {' '}
               {high}
             </Typography>
-            <Button onClick={handleReset}>
+            <Button
+              onClick={handleReset}
+            >
               Reset
             </Button>
           </>

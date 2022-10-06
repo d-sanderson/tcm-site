@@ -7,6 +7,7 @@ import { useStaticQuery, graphql } from 'gatsby'
 import * as React from 'react'
 // import Copyright from '../components/Copyright'
 import Stepper from '../components/Stepper/Stepper'
+import './index.css'
 
 export default function IndexPage() {
   const {
