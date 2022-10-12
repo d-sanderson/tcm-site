@@ -40,9 +40,6 @@ export default function IndexPage() {
       <Typography variant="h3" fontSize={[18, 28]}>{siteTitle}</Typography>
       <Box sx={{ px: 2 }}>
         <Typography variant="h6">
-          NOTE: results are rounded to full year.
-        </Typography>
-        <Typography variant="h6">
           Author:
           {' '}
           {name}
