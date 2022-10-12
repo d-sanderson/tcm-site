@@ -169,34 +169,34 @@ function StepperComponent({ isTest }: Props) {
             <StepContent>
               <Grid container>
                 <Grid item xs={8}>
-                  <div style={{ display: 'flex', gap: '90px' }}>
-                    {activeStep <= 5 && (
-                      <>
+                  <Box sx={{
+                    display: 'flex', flexDirection: 'row', alignItems: 'center',
+                  }}
+                  >
+                    {activeStep <= 5
+                    && <img style={{ height: '100%', marginRight: '40px' }} className="step-img" src={getImageForStep(activeStep).location} alt="" />}
+                    <Box>
+                      {activeStep <= 5 && (
                         <img
                           className="step-img"
                           src={getImageForStep(activeStep).scale}
-                          style={{ width: '100%' }}
                           alt={step.description}
                         />
-                        <img className="step-img" src={getImageForStep(activeStep).location} alt="" />
-                      </>
-                    )}
-
-                  </div>
-                  <Box>
-                    <Slider
-                      size="medium"
-                      value={currentSliderValue}
-                      {...activeStep === 0 ? { step: 5 } : {}}
-                      min={step.range.min}
-                      max={step.range.max}
-                      aria-label="Medium"
-                      valueLabelDisplay="on"
-                      marks={step.marks}
-                      onChange={(e) => {
-                        if (typeof e.target.value === 'number') setCurrentSliderValue(e.target.value)
-                      }}
-                    />
+                      )}
+                      <Slider
+                        size="medium"
+                        value={currentSliderValue}
+                        {...activeStep === 0 ? { step: 5 } : {}}
+                        min={step.range.min}
+                        max={step.range.max}
+                        aria-label="Medium"
+                        valueLabelDisplay="on"
+                        marks={step.marks}
+                        onChange={(e) => {
+                          if (typeof e.target.value === 'number') setCurrentSliderValue(e.target.value)
+                        }}
+                      />
+                    </Box>
                   </Box>
                   <Typography>{step.description}</Typography>
                   <Typography variant="caption">
@@ -236,7 +236,7 @@ function StepperComponent({ isTest }: Props) {
         {activeStep === stepsLength && (
           <>
             <Typography variant="h6">Results</Typography>
-              {/* {results.map((el, i) => (
+            {/* {results.map((el, i) => (
                 <div key={i}>
                   <Typography variant="h6">
                     {steps[i].label}
