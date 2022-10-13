@@ -129,7 +129,7 @@ function StepperComponent({ isTest }: Props) {
     setActiveStep(0)
   }
 
-  const width = window !== undefined && window.innerWidth
+  const width = typeof window !== 'undefined' && window.innerWidth
 
   if (activeStep === stepsLength) {
     ({ low, meanAge, high } = ageEstSimple({
