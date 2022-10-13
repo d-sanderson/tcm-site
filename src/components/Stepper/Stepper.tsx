@@ -129,6 +129,8 @@ function StepperComponent({ isTest }: Props) {
     setActiveStep(0)
   }
 
+  const width = window !== undefined && window.innerWidth
+
   if (activeStep === stepsLength) {
     ({ low, meanAge, high } = ageEstSimple({
       density: results[0],
@@ -170,11 +172,16 @@ function StepperComponent({ isTest }: Props) {
               <Grid container>
                 <Grid item xs={8}>
                   <Box sx={{
-                    display: 'flex', flexDirection: 'row', alignItems: 'center',
+                    display: 'block',
+                    '@media (min-width: 780px)': {
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      display: 'flex',
+                    },
                   }}
                   >
                     {activeStep <= 5
-                    && <img style={{ height: '100%', marginRight: '40px' }} className="step-img" src={getImageForStep(activeStep).location} alt="" />}
+                    && <img style={{ height: '100%', marginRight: '40px', alignSelf: 'start' }} className="step-img" src={getImageForStep(activeStep).location} alt="" />}
                     <Box>
                       {activeStep <= 5 && (
                         <img
@@ -183,19 +190,27 @@ function StepperComponent({ isTest }: Props) {
                           alt={step.description}
                         />
                       )}
-                      <Slider
-                        size="medium"
-                        value={currentSliderValue}
-                        {...activeStep === 0 ? { step: 5 } : {}}
-                        min={step.range.min}
-                        max={step.range.max}
-                        aria-label="Medium"
-                        valueLabelDisplay="on"
-                        marks={step.marks}
-                        onChange={(e) => {
-                          if (typeof e.target.value === 'number') setCurrentSliderValue(e.target.value)
-                        }}
-                      />
+                      <Box sx={{
+                        mx: 0,
+                        '@media (min-width: 768px)': {
+                          mx: 4,
+                        },
+                      }}
+                      >
+                        <Slider
+                          size="medium"
+                          value={currentSliderValue}
+                          {...activeStep === 0 ? { step: 5 } : {}}
+                          min={step.range.min}
+                          max={step.range.max}
+                          aria-label="Medium"
+                          valueLabelDisplay="on"
+                          marks={width > 768 ? step.marks : []}
+                          onChange={(e) => {
+                            if (typeof e.target.value === 'number') setCurrentSliderValue(e.target.value)
+                          }}
+                        />
+                      </Box>
                     </Box>
                   </Box>
                   <Typography>{step.description}</Typography>
