@@ -204,7 +204,7 @@ function StepperComponent({ isTest }: Props) {
                           min={step.range.min}
                           max={step.range.max}
                           aria-label="Medium"
-                          valueLabelDisplay="on"
+                          valueLabelDisplay="auto"
                           marks={width > 768 ? step.marks : []}
                           onChange={(e) => {
                             if (typeof e.target.value === 'number') setCurrentSliderValue(e.target.value)
