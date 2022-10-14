@@ -40,8 +40,6 @@ export default function IndexPage() {
       <Typography variant="h3" fontSize={[18, 28]} fontWeight={700}>{siteTitle}</Typography>
       <Box sx={{ px: 1 }}>
         <Typography variant="h6" fontSize={[14]}>
-          Author:
-          {' '}
           {name}
         </Typography>
       </Box>
