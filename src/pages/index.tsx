@@ -37,7 +37,7 @@ export default function IndexPage() {
 
   return (
     <Box sx={{ mx: [2, 20], mt: [4] }}>
-      <Typography variant="h3" fontSize={[18, 28]}>{siteTitle}</Typography>
+      <Typography variant="h3" fontSize={[18, 28]} fontWeight={700}>{siteTitle}</Typography>
       <Box sx={{ px: 1 }}>
         <Typography variant="h6" fontSize={[14]}>
           Author:
