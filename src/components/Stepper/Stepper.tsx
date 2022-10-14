@@ -105,13 +105,13 @@ function StepperComponent({ isTest }: Props) {
     if (activeStep === 6) return
     if (activeStep <= stepsLength) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1 as ActiveStep)
-      setCurrentSliderValue(results[activeStep] || 0)
+      setCurrentSliderValue(results[activeStep] || 3)
     }
   }
 
   const handleBack = () => {
     // set previous result to current slider value
-    setCurrentSliderValue(results[activeStep - 1] || 0)
+    setCurrentSliderValue(results[activeStep - 1] || 3)
     // remove result
     setResults((prev) => {
       const next = prev.slice(0, -1)
