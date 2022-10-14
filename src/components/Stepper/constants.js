@@ -88,37 +88,37 @@ export const densityMarks = [
 export const steps = [
   {
     label: 'Select Density',
-    description: 'Select Density Step',
+    description: 'Select Density',
     range: densityRange,
     marks: densityMarks,
   },
   {
     label: 'Upper Boundary (UB)',
-    description: 'Upper Boundary Step',
+    description: 'Upper Boundary',
     range: defaultRange,
     marks: defaultMarks,
   },
   {
     label: 'Lower Boundary (LB)',
-    description: 'Lower Boundary Step',
+    description: 'Lower Boundary',
     range: defaultRange,
     marks: defaultMarks,
   },
   {
     label: 'Outline (OTL)',
-    description: 'Outline Step',
+    description: 'Outline',
     range: defaultRange,
     marks: defaultMarks,
   },
   {
     label: 'Surface Texture (ST)',
-    description: 'Surface Texture Step',
+    description: 'Surface Texture',
     range: defaultRange,
     marks: defaultMarks,
   },
   {
     label: 'Topography',
-    description: 'Topography Step',
+    description: 'Topography',
     range: defaultRange,
     marks: defaultMarks,
   },
