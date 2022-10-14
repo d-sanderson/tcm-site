@@ -28,7 +28,6 @@ export const ageEstSimple = ({
   }
   // Todo: add gender?
 }) => {
-  console.log({weights})
   // Intercept is different for different versions of this formula
   const intercept = weights.intercept || -1.9948
 

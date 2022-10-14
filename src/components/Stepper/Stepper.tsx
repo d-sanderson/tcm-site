@@ -180,7 +180,7 @@ function StepperComponent({ isTest }: Props) {
                     },
                   }}
                   >
-                    {activeStep <= 5
+                    {(activeStep <= 5 && activeStep !== 0)
                     && <img style={{ height: '100%', marginRight: '40px', alignSelf: 'start' }} className="step-img" src={getImageForStep(activeStep).location} alt="" />}
                     <Box>
                       {activeStep <= 5 && (
@@ -251,23 +251,96 @@ function StepperComponent({ isTest }: Props) {
         {activeStep === stepsLength && (
           <>
             <Typography variant="h6">Results</Typography>
-            {/* {results.map((el, i) => (
-                <div key={i}>
-                  <Typography variant="h6">
-                    {steps[i].label}
-                    :
-                    {el}
-                  </Typography>
-                  {/* <img src={getImageForStep(i)?.location} alt="" />
-                </div>
-              ))} */}
+            <Typography variant="overline">
+              Mean Age Formula:
+            </Typography>
+            <pre>
+              {weights.intercept}
+              {' '}
+              + (
+              {weights.densitySqRootStd}
+              {' '}
+              *
+              {' '}
+              {results[0]}
+              )
+              + (
+              {weights.upperBoundStd}
+              {' '}
+              *
+              {' '}
+              {results[1]}
+              )
+              +
+              (
+              {weights.lowerBoundaryStd}
+              {' '}
+              *
+              {' '}
+              {results[2]}
+              )
+              +
+              (
+              {weights.outlineStd}
+              {' '}
+              *
+              {' '}
+              {results[3]}
+              )
+              +
+              (
+              {weights.surfaceTextureStd}
+              {' '}
+              *
+              {' '}
+              {results[4]}
+              )
+              (
+              {weights.topographyStd}
+              {' '}
+              *
+              {' '}
+              {results[5]}
+              )
+              =
+              {' '}
+              {meanAge}
+            </pre>
+            <Typography variant="overline">
+              Low Range Formula:
+            </Typography>
+            <pre>
+              {meanAge}
+              {' '}
+              -
+              {' '}
+              {weights.standardError}
+              {' '}
+              * 2 =
+              {' '}
+              {low}
+            </pre>
+            <Typography variant="overline">
+              High Range Formula:
+            </Typography>
+            <pre>
+              {meanAge}
+              {' '}
+              +
+              {' '}
+              {weights.standardError}
+              {' '}
+              * 2 =
+              {' '}
+              {high}
+            </pre>
             <Typography variant="h6">
               Lower Range:
               {' '}
               {low}
             </Typography>
             <Typography variant="h6">
-              Mean Age:
+              Mean Age Result:
               {' '}
               {meanAge}
             </Typography>

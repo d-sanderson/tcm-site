@@ -3,6 +3,10 @@
   display: none;
 }
 
+img {
+  border: 3px solid black;
+}
+
 @media (min-width: 768px) {
   .step-img {
     display: block;
